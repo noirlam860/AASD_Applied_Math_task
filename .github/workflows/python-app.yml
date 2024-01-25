@@ -36,6 +36,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest numeric_derivation_test.py
-        pytest rmse_test.py
-        pytest tensor_multiplication_test.py
+        pytest regression_test.py
