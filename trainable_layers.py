@@ -20,8 +20,8 @@ def define_dense_model_with_hidden_layers(input_length,
     # Create the input layer
     model.add(layers.Input(input_length))
     # Create the hidden layers
-    model.add(layers.Dense(hidden_layers_sizes,activation=activation_func_array[0]))
-    model.add(layers.Dense(hidden_layers_sizes,activation=activation_func_array[1]))
+    model.add(layers.Dense(hidden_layers_sizes[0],activation=activation_func_array[0]))
+    model.add(layers.Dense(hidden_layers_sizes[1],activation=activation_func_array[1]))
     # Create the output layer
     model.add(layers.Dense(output_length,activation = output_function))
     return model
