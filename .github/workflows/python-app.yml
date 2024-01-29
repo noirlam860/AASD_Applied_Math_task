@@ -37,4 +37,4 @@ jobs:
     - name: Test with pytest
       run: |
 
-        pytest layered_model_test.py
+        pytest multiclass_model_test.py

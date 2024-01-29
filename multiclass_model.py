@@ -1,6 +1,7 @@
 from tensorflow.keras.datasets import mnist
 from tensorflow import keras
 from tensorflow.keras import layers
+from tensorflow.keras.layers import Dense
 import tensorflow as tf
 
 def define_dense_model_single_layer(input_length, activation_f='sigmoid', output_length=1):
@@ -8,9 +9,8 @@ def define_dense_model_single_layer(input_length, activation_f='sigmoid', output
     input_length: the number of inputs
     activation_f: the activation function
     output_length: the number of outputs (number of neurons)"""
-    model = keras.models.Sequential()
-    model.add(layers.Input(input_length))
-    model.add(layers.Dense(output_length, activation = activation_f))
+    model = keras.Sequential()
+    model.add(layers.Dense(output_length,input_shape = (input_length,), activation = activation_f))
     return model
 
 def define_dense_model_with_hidden_layer(input_length, 
@@ -23,11 +23,11 @@ def define_dense_model_with_hidden_layer(input_length,
     hidden_layer_size: the number of neurons in the hidden layer
     output_length: the number of outputs (number of neurons in the output layer)"""
 
-    model = keras.models.Sequential()
-    model.add(layers.Input(input_length))
-    model.add(layers.Dense(hidden_layer_size, activation = activation_func_array[0]))
-    model.add(layers.Dense(output_length, activation = activation_func_array[1],))
+    model = keras.Sequential()
+    model.add(layers.Dense(hidden_layer_size, input_shape = (input_length,), activation = activation_func_array[0]))
+    model.add(layers.Dense(output_length, activation = activation_func_array[1]))
     return model
+
 
 
 def get_mnist_data():
@@ -37,33 +37,31 @@ def get_mnist_data():
     x_test = x_test.reshape(10000, 784).astype('float32') / 255 
     return (x_train, y_train), (x_test, y_test)
 
-def binarize_labels(labels, target_digit=2):
-    """Binarize the labels."""
-    labels = 1*(labels==target_digit)
-    return labels
-
-def fit_mnist_model_single_digit(x_train, y_train, target_digit, model, epochs=10, batch_size=128):
+def fit_mnist_model(x_train, y_train, model, epochs=2, batch_size=2):
     """Fit the model to the data.
-    compile the model and add parameters for  the "optimizer", the loss function , 
-    and the metrics, Hint: use binary crossentropy for the loss function .
+    compile the model and add parameters for  the "optimizer", the loss function, 
+    and the metrics, Hint: use categorical crossentropy for the loss function .
 
     then fit the model on the training data. (pass the epochs and batch_size params)
     """
-    y_train = binarize_labels(y_train, target_digit)
     model.compile(optimizer = 'adam', 
-                  loss= keras.losses.BinaryCrossentropy(),
-                  metrics=[keras.metrics.BinaryAccuracy()])
+                  loss= keras.losses.SparseCategoricalCrossentropy(),
+                  metrics=['accuracy'])
     model.summary()
     model.fit(x_train,y_train,epochs=epochs,batch_size=batch_size)
     return model
-
-def evaluate_mnist_model_single_digit(x_test, y_test, target_digit, model):
+    # model.compile  ... 
+    # model.fit ...    
+  
+def evaluate_mnist_model(x_test, y_test, model):
     """Evaluate the model on the test data.
     Hint: use model.evaluate() to evaluate the model on the test data.
     """
-    y_test = binarize_labels(y_test, target_digit)
-    loss , accuracy = model.evaluate(x_test,y_test,batch_size=128) ## change this.
+    loss, accuracy = model.evaluate(x_test,y_test,batch_size=2) # model evaluate
     return loss, accuracy
 
 
+model = define_dense_model_single_layer(28*28, activation_f='softmax', output_length=10)
+model.compile()
+model.summary()
 
