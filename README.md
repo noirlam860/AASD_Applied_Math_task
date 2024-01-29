@@ -1,16 +1,22 @@
-# Ex-5: Multiclass Classifier
+# Ex-6: Trainable Layers in Neural Networks
 
 ## Overview
-In this exercise, you will implement a multiclass classifier using the concepts learned in previous exercises.
+In this exercise, you will learn to create and modify neural network layers.
 
 ## Objectives
-1. Enhance your understanding of multiclass classification.
-2. Reuse and modify solutions from previous exercises.
-3. Implement and train a multiclass classifier model.
-4. Evaluate the performance of the model.
+1. Define dense models with multiple hidden layers.
+2. Set specific layers as trainable or non-trainable.
 
 ## The Assignment
-You can reuse your solutions for `define_dense_model_single_layer` and `define_dense_model_with_hidden_layer` from Exercise 4. However, you need to fill in the functions `fit_mnist_model` and `evaluate_mnist_model`. Try to experiment with the number of epochs and batch size if the tests do not pass initially.
+
+### define_dense_model_with_hidden_layers
+Modify your solution from the previous exercise for `define_dense_model_with_hidden_layers`. This function should accept an array of hidden layer sizes and an array of the activation functions. Keep the following points in mind when coding:
+
+* The first layer is different because it should accept an `input_layer` parameter.
+* The output layer should use the `output_function` and `output_length` parameters.
+
+### set_layers_to_trainable
+The function `set_layers_to_trainable` should take a model and an array of layer numbers. It should set the layers in the array to `trainable` and the other layers to non-trainable.
 
 ---
 
